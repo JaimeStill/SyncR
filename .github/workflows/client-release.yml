@@ -1,0 +1,23 @@
+name: Pack and Push SyncR.Core to NuGet
+
+on:
+  push:
+    tags:
+      - "SyncR.Client-v[0-9]+.[0-9]+.[0-9]+"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src/SyncR.Client/
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set VERSION variable from tag
+      run: echo "VERSION=$(echo "$GITHUB_REF_NAME" | cut -d- -f2)" >> $GITHUB_ENV
+    - name: Build
+      run: dotnet build -c Release /p:Version=${VERSION}
+    - name: Pack
+      run: dotnet pack -c Release /p:Version=${Version} --no-build --output .
+    - name: Push
+      run: dotnet nuget push SyncR.Client.${VERSION}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_KEY }} --skip-duplicate
