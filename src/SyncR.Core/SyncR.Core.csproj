@@ -8,7 +8,7 @@
     <Authors>Jaime Still</Authors>
     <RepositoryUrl>https://github.com/JaimeStill/SyncR</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
