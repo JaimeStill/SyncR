@@ -1,0 +1,19 @@
+name: Ensure SyncR.Client Builds
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/SyncR.Client/*
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src/SyncR.Client/
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Build
+      run: dotnet build -c Release

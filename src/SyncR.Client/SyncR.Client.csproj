@@ -6,7 +6,9 @@
     <Nullable>enable</Nullable>
     <PackageId>SyncR.Client</PackageId>
     <Authors>Jaime Still</Authors>
-    <Version>0.0.1</Version>
+    <RepositoryUrl>https://github.com/JaimeStill/SyncR</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +18,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.3" />
     <PackageReference Include="SyncR.Core" Version="0.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\readme.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

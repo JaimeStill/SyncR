@@ -1,0 +1,18 @@
+name: Pack and Push SyncR.Server to NuGet
+
+on:
+  push:
+    tags:
+      - "SyncR.Server-v[0-9]+.[0-9]+.[0-9]+"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set VERSION variable from tag
+      run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+    - name: Print VERSION variable
+      run: echo "Verison is $VERSION"
+    - name: Print GITHUB_REF_NAME
+      run: echo "GITHUB_REF_NAME $GITHUB_REF_NAME"

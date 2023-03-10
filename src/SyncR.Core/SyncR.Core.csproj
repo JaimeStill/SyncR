@@ -6,7 +6,13 @@
     <Nullable>enable</Nullable>
     <PackageId>SyncR.Core</PackageId>
     <Authors>Jaime Still</Authors>
-    <Version>0.0.2</Version>
+    <RepositoryUrl>https://github.com/JaimeStill/SyncR</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\readme.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>
