@@ -18,6 +18,6 @@ jobs:
     - name: Build
       run: dotnet build -c Release /p:Version=${VERSION}
     - name: Pack
-      run: dotnet pack -c Release /p:Version=${Version} --no-build --output .
+      run: dotnet pack -c Release /p:Version=${VERSION} --no-build --output .
     - name: Push
       run: dotnet nuget push SyncR.Server.${VERSION}.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_KEY }} --skip-duplicate
