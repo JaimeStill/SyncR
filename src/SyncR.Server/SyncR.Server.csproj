@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SyncR.Core" Version="0.0.6" />
+    <PackageReference Include="SyncR.Core" Version="0.0.7" />
   </ItemGroup>
 
   <ItemGroup>
