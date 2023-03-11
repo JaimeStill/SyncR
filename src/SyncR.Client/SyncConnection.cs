@@ -11,10 +11,7 @@ public abstract class SyncConnection<T> : ISyncConnection<T>
 
     protected List<Guid> Groups { get; set; }
 
-    public bool Available { get; private set; }
-
-    protected SyncAction OnAvailable { get; private set; }
-    protected SyncAction OnDisconnected { get; private set; }
+    public SyncConnectionStatus Status => new(connection.ConnectionId, connection.State.ToString());
 
     public SyncAction OnFinalizeService { get; protected set; }
     public SyncAction OnFinalizeListener { get; protected set; }
@@ -90,13 +87,8 @@ public abstract class SyncConnection<T> : ISyncConnection<T>
         await connection.InvokeAsync("Leave", key);
     }
 
-    public async Task Push(SyncMessage<T> message)
-    {
-        if (Available)
-            await connection.InvokeAsync("SendPush", message);
-        else
-            throw new SyncServiceUnavailableException(endpoint);
-    }
+    public async Task Push(SyncMessage<T> message) =>
+        await connection.InvokeAsync("SendPush", message);
 
     public async Task Notify(SyncMessage<T> message) =>
         await connection.InvokeAsync("SendNotify", message);
@@ -116,10 +108,6 @@ public abstract class SyncConnection<T> : ISyncConnection<T>
         .WithAutomaticReconnect()
         .Build();
 
-    [MemberNotNull(
-        nameof(OnAvailable),
-        nameof(OnDisconnected)
-    )]
     protected void InitializeEvents()
     {
         connection.Closed += async (error) =>
@@ -127,21 +115,6 @@ public abstract class SyncConnection<T> : ISyncConnection<T>
             await Task.Delay(5000);
             await Connect();
         };
-
-        OnAvailable = new("Available", connection);
-        OnDisconnected = new("Disconnected", connection);
-
-        OnAvailable.Set(() =>
-        {
-            Console.WriteLine("Sync Service is available");
-            Available = true;
-        });
-
-        OnDisconnected.Set(() =>
-        {
-            Console.WriteLine("Sync Service disconnected");
-            Available = false;
-        });
     }
 
     [MemberNotNull(

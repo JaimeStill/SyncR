@@ -3,8 +3,6 @@ using SyncR.Core;
 namespace SyncR.Client;
 public interface ISyncConnection<T> : IAsyncDisposable
 {
-    bool Available { get; }
-
     Task Connect();
     Task RegisterService();
     Task RegisterListener();

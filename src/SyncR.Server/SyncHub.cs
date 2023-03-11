@@ -17,7 +17,6 @@ public abstract class SyncHub<T> : Hub<ISyncHub<T>>
     {
         if (Context.ConnectionId == service.ConnectionId)
         {
-            await Clients.Others.Disconnected();
             service.ClearConnection();
         }
         else
@@ -45,12 +44,11 @@ public abstract class SyncHub<T> : Hub<ISyncHub<T>>
         await service.AddListener(Context.ConnectionId, Groups);
     }
 
-    public async Task RegisterService()
+    public void RegisterService()
     {
         Console.WriteLine($"Registering service {service.Name} at {service.Endpoint}");
         service.SetConnection(Context.ConnectionId);
         Console.WriteLine($"Service successfully registered");
-        await Clients.All.Available();
     }
 
     public async Task Join(Guid key)

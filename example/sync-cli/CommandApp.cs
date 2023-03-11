@@ -10,6 +10,7 @@ public static class CommandApp
 
     static List<Command> BuildCommands() => new()
     {
+        new ListenerCommand().Build(),
         new ProcessCommand().Build()
     };
 
