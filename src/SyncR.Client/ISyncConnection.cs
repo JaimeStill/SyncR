@@ -6,6 +6,8 @@ public interface ISyncConnection<T> : IAsyncDisposable
     bool Available { get; }
 
     Task Connect();
+    Task RegisterService();
+    Task RegisterListener();
     Task Join(Guid key);
     Task Leave(Guid key);
     Task Push(SyncMessage<T> message);

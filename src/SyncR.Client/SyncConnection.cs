@@ -16,7 +16,8 @@ public abstract class SyncConnection<T> : ISyncConnection<T>
     protected SyncAction OnAvailable { get; private set; }
     protected SyncAction OnDisconnected { get; private set; }
 
-    public SyncAction OnRegistered { get; protected set; }
+    public SyncAction OnFinalizeService { get; protected set; }
+    public SyncAction OnFinalizeListener { get; protected set; }
     public SyncAction OnPush { get; protected set; }
     public SyncAction OnNotify { get; protected set; }
     public SyncAction OnComplete { get; protected set; }
@@ -61,6 +62,18 @@ public abstract class SyncConnection<T> : ISyncConnection<T>
                 }
             }
         }
+    }
+
+    public async Task RegisterListener()
+    {
+        Console.WriteLine($"Registering to listen to SyncR endpoint {endpoint}");
+        await connection.InvokeAsync("RegisterListener");
+    }
+
+    public async Task RegisterService()
+    {
+        Console.WriteLine($"Registering as as a service for SyncR endpoint {endpoint}");
+        await connection.InvokeAsync("RegisterService");
     }
 
     public async Task Join(Guid key)
@@ -132,7 +145,8 @@ public abstract class SyncConnection<T> : ISyncConnection<T>
     }
 
     [MemberNotNull(
-        nameof(OnRegistered),
+        nameof(OnFinalizeListener),
+        nameof(OnFinalizeService),
         nameof(OnPush),
         nameof(OnNotify),
         nameof(OnComplete),
@@ -142,7 +156,8 @@ public abstract class SyncConnection<T> : ISyncConnection<T>
     )]
     protected void InitializeActions()
     {
-        OnRegistered = new("Registered", connection);
+        OnFinalizeListener = new("FinalizeListener", connection);
+        OnFinalizeService = new("FinalizeService", connection);
         OnPush = new("Push", connection);
         OnNotify = new("Notify", connection);
         OnComplete = new("Complete", connection);
@@ -163,7 +178,8 @@ public abstract class SyncConnection<T> : ISyncConnection<T>
 
     protected void DisposeEvents()
     {
-        OnRegistered.Dispose();
+        OnFinalizeListener.Dispose();
+        OnFinalizeService.Dispose();
         OnPush.Dispose();
         OnNotify.Dispose();
         OnComplete.Dispose();
